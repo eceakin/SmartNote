@@ -65,7 +65,6 @@ public class NotesController {
 	            return ResponseEntity.notFound().build();
 	        }
 	        
-	        // userId SET ETMİYORUZ - sadece title ve description güncelleniyor
 	        NoteDto noteDto = this.noteService.updateNote(id, updateNoteDto);
 	        return ResponseEntity.ok(noteDto);
 	    }
@@ -76,7 +75,7 @@ public class NotesController {
 	            return ResponseEntity.notFound().build();
 	        }
 	        this.noteService.deleteNote(id);
-	        return ResponseEntity.noContent().build(); // ✅ 204 No Content
+	        return ResponseEntity.noContent().build(); 
 	    }
 	  @GetMapping("/search")
 	  public ResponseEntity<List<NoteDto>> searchMyNotesByTitle(@RequestParam String title){

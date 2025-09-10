@@ -23,8 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class UserManager implements UserService {
 	private final ModelMapperService modelMapperService;
 	private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder; // ✅ eklendi
-
+	private final PasswordEncoder passwordEncoder; 
 
 	@Override
 	public UserDto createUser(CreateUserDto createUserDto) {
@@ -49,46 +48,39 @@ public class UserManager implements UserService {
 		return userRepository.findAll().stream().map(user -> modelMapperService.forResponse().map(user, UserDto.class))
 				.collect(Collectors.toList());
 	}
-	
-	 @Override
-	    public UserDto updateUser(Long id, CreateUserDto updateUserDto) {
-	        User user = userRepository.findById(id)
-	                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
 
-	        // username, email, firstname, lastname güncelle
-	        user.setUsername(updateUserDto.getUsername());
-	        user.setEmail(updateUserDto.getEmail());
-	        user.setFirstName(updateUserDto.getFirstName());
-	        user.setLastName(updateUserDto.getLastName());
-
-	        // password güncellenmek istenirse
-	        if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isBlank()) {
-	            user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
-	        }
-
-	        User updatedUser = userRepository.save(user);
-	        return modelMapperService.forResponse().map(updatedUser, UserDto.class);
-	    }
- /* 
 	@Override
 	public UserDto updateUser(Long id, CreateUserDto updateUserDto) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
-
-		// ModelMapper ile update işlemi
-		modelMapperService.forRequest().map(updateUserDto, user);
-		user.setId(id); // ID'yi koru
+		user.setUsername(updateUserDto.getUsername());
+		user.setEmail(updateUserDto.getEmail());
+		user.setFirstName(updateUserDto.getFirstName());
+		user.setLastName(updateUserDto.getLastName());
+		if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isBlank()) {
+			user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
+		}
 
 		User updatedUser = userRepository.save(user);
 		return modelMapperService.forResponse().map(updatedUser, UserDto.class);
-	} */ 
- /* 
-	@Override
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
-        
-        userRepository.delete(user);
-    }
-*/ 
+	}
+	/*
+	 * @Override public UserDto updateUser(Long id, CreateUserDto updateUserDto) {
+	 * User user = userRepository.findById(id) .orElseThrow(() -> new
+	 * IllegalArgumentException("User not found with id: " + id));
+	 * 
+	 * // ModelMapper ile update işlemi
+	 * modelMapperService.forRequest().map(updateUserDto, user); user.setId(id); //
+	 * ID'yi koru
+	 * 
+	 * User updatedUser = userRepository.save(user); return
+	 * modelMapperService.forResponse().map(updatedUser, UserDto.class); }
+	 */
+	/*
+	 * @Override public void deleteUser(Long id) { User user =
+	 * userRepository.findById(id) .orElseThrow(() -> new
+	 * IllegalArgumentException("User not found with id: " + id));
+	 * 
+	 * userRepository.delete(user); }
+	 */
 }

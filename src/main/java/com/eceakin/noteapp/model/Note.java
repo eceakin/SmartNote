@@ -43,7 +43,7 @@ public class Note {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnoreProperties({"notes", "password"}) // User'ın notes ve password alanlarını ignore et
+    @JsonIgnoreProperties({"notes", "password"}) 
     private User user;
     
     @PrePersist
