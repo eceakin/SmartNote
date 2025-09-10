@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eceakin.noteapp.application.dto.CreateUserDto;
@@ -18,11 +19,12 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
 @Transactional
 public class UserManager implements UserService {
-	private ModelMapperService modelMapperService;
-	private UserRepository userRepository;
+	private final ModelMapperService modelMapperService;
+	private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder; // ✅ eklendi
+
 
 	@Override
 	public UserDto createUser(CreateUserDto createUserDto) {
@@ -47,7 +49,27 @@ public class UserManager implements UserService {
 		return userRepository.findAll().stream().map(user -> modelMapperService.forResponse().map(user, UserDto.class))
 				.collect(Collectors.toList());
 	}
+	
+	 @Override
+	    public UserDto updateUser(Long id, CreateUserDto updateUserDto) {
+	        User user = userRepository.findById(id)
+	                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
 
+	        // username, email, firstname, lastname güncelle
+	        user.setUsername(updateUserDto.getUsername());
+	        user.setEmail(updateUserDto.getEmail());
+	        user.setFirstName(updateUserDto.getFirstName());
+	        user.setLastName(updateUserDto.getLastName());
+
+	        // password güncellenmek istenirse
+	        if (updateUserDto.getPassword() != null && !updateUserDto.getPassword().isBlank()) {
+	            user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
+	        }
+
+	        User updatedUser = userRepository.save(user);
+	        return modelMapperService.forResponse().map(updatedUser, UserDto.class);
+	    }
+ /* 
 	@Override
 	public UserDto updateUser(Long id, CreateUserDto updateUserDto) {
 		User user = userRepository.findById(id)
@@ -59,8 +81,8 @@ public class UserManager implements UserService {
 
 		User updatedUser = userRepository.save(user);
 		return modelMapperService.forResponse().map(updatedUser, UserDto.class);
-	}
-
+	} */ 
+ /* 
 	@Override
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
@@ -68,5 +90,5 @@ public class UserManager implements UserService {
         
         userRepository.delete(user);
     }
-
+*/ 
 }

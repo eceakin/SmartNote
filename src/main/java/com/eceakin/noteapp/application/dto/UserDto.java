@@ -18,5 +18,5 @@ public class UserDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<Note> notes;
+    private List<NoteDto> notes;
 }

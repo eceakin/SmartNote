@@ -17,83 +17,87 @@ import com.eceakin.noteapp.repository.UserRepository;
 import com.eceakin.noteapp.shared.mapper.ModelMapperService;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor  // Remove @AllArgsConstructor - only use one
 @Transactional
 public class NoteManager implements NoteService {
-	private NoteRepository noteRepository;
-	private ModelMapperService modelMapperService;
-	private UserRepository userRepository;
+    
+    // Add 'final' keyword to all fields
+    private final NoteRepository noteRepository;
+    private final ModelMapperService modelMapperService;
+    private final UserRepository userRepository;
+    
+    @Override
+    public NoteDto createNote(CreateNoteDto createNoteDto) {
+        User user = findUserById(createNoteDto.getUserId());
 
-	@Override
-	public NoteDto createNote(CreateNoteDto createNoteDto) {
-		User user = findUserById(createNoteDto.getUserId());
+        // Maple
+        Note note = modelMapperService.forRequest().map(createNoteDto, Note.class);
 
-		Note note = modelMapperService.forRequest().map(createNoteDto, Note.class);
-		note.setUser(user);
+        // DTO’daki userId yanlışlıkla Note.id’ye maplenmiş olmasın diye sıfırla
+        note.setId(null);
 
-		Note savedNote = noteRepository.save(note);
-		return modelMapperService.forResponse().map(savedNote, NoteDto.class);
-	}
-	@Override
-	public NoteDto updateNote(Long id, UpdateNoteDto updateNoteDto) {
-		Note note = findNoteById(id);
-		modelMapperService.forRequest().map(updateNoteDto, note);
-		Note savedNote = noteRepository.save(note);
-		return modelMapperService.forResponse().map(savedNote, NoteDto.class);
-		
-	}
-	
-	@Override
-	public Optional<NoteDto> getNoteById(Long id) {
-		return this.noteRepository.findById(id).map(note -> modelMapperService.forResponse().map(note, NoteDto.class));
-	}
+        // User ilişkilendir
+        note.setUser(user);
 
-	@Override
-	public List<NoteDto> getNotesByUserId(Long id) {
-		return this.noteRepository.findByUserIdOrderByCreatedAtDesc(id)
-				.stream().map(note->modelMapperService.forResponse().map(note, NoteDto.class))
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<NoteDto> getAllNotes() {
-		List<Note> notes = noteRepository.findAll();
-		List<NoteDto> notesResponse = notes.stream()
-				.map(note -> this.modelMapperService.forResponse().map(note, NoteDto.class))
-				.collect(Collectors.toList());
-		return notesResponse;
-
-	}
-
-	@Override
-	public void deleteNote(Long id) {
-
-		this.noteRepository.deleteById(id);
-	}
-
-	@Override
-	public List<NoteDto> searchNotesByTitle(Long userId, String title) {
-		 return noteRepository.findByUserIdAndTitleContaining(userId, title).stream()
-		            .map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
-		            .collect(Collectors.toList());
-		}
-	private User findUserById(Long userId) {
-		return userRepository.findById(userId)
-				.orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-	}
-	
-	private Note findNoteById(Long id) {
-		  return noteRepository.findById(id)
-	                .orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
-	    }
-
-	
-
-
-	
+        Note savedNote = noteRepository.save(note);
+        return modelMapperService.forResponse().map(savedNote, NoteDto.class);
+    }
+    @Override
+    public NoteDto updateNote(Long id, UpdateNoteDto updateNoteDto) {
+        Note note = findNoteById(id);
+        
+        // MANUEL MAPPING - ModelMapper kullanmıyoruz
+        note.setTitle(updateNoteDto.getTitle());
+        note.setDescription(updateNoteDto.getDescription());
+        
+        Note savedNote = noteRepository.save(note);
+        return modelMapperService.forResponse().map(savedNote, NoteDto.class);
+    }
+    
+    @Override
+    public Optional<NoteDto> getNoteById(Long id) {
+        return this.noteRepository.findById(id)
+                .map(note -> modelMapperService.forResponse().map(note, NoteDto.class));
+    }
+    
+    @Override
+    public List<NoteDto> getNotesByUserId(Long id) {
+        return this.noteRepository.findByUserIdOrderByCreatedAtDesc(id)
+                .stream()
+                .map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<NoteDto> getAllNotes() {
+        List<Note> notes = noteRepository.findAll();
+        return notes.stream()
+                .map(note -> this.modelMapperService.forResponse().map(note, NoteDto.class))
+                .collect(Collectors.toList());
+    }
+    
+    @Override
+    public void deleteNote(Long id) {
+        this.noteRepository.deleteById(id);
+    }
+    
+    @Override
+    public List<NoteDto> searchNotesByTitle(Long userId, String title) {
+        return noteRepository.findByUserIdAndTitleContaining(userId, title).stream()
+                .map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
+                .collect(Collectors.toList());
+    }
+    
+    private User findUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+    }
+    
+    private Note findNoteById(Long id) {
+        return noteRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
+    }
 }

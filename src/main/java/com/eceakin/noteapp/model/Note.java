@@ -2,6 +2,8 @@ package com.eceakin.noteapp.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,8 +43,8 @@ public class Note {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"notes", "password"}) // User'ın notes ve password alanlarını ignore et
     private User user;
-    
     
     @PrePersist
     protected void onCreate() {

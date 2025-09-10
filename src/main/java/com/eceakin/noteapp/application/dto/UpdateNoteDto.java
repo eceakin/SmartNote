@@ -17,6 +17,5 @@ public class UpdateNoteDto {
     @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
     
-    private Long userId;
 
 }
