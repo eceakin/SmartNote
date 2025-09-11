@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eceakin.noteapp.application.dto.CreateUserDto;
+import com.eceakin.noteapp.application.dto.UpdateUserDto;
 import com.eceakin.noteapp.application.dto.UserDto;
 import com.eceakin.noteapp.application.service.UserService;
 import com.eceakin.noteapp.model.User;
@@ -50,7 +51,7 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public UserDto updateUser(Long id, CreateUserDto updateUserDto) {
+	public UserDto updateUser(Long id, UpdateUserDto updateUserDto) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
 		user.setUsername(updateUserDto.getUsername());

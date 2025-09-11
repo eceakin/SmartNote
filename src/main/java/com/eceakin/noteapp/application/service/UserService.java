@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.eceakin.noteapp.application.dto.CreateUserDto;
+import com.eceakin.noteapp.application.dto.UpdateUserDto;
 import com.eceakin.noteapp.application.dto.UserDto;
 
 public interface UserService {
@@ -16,7 +17,7 @@ public interface UserService {
 
 	List<UserDto> getAllUsers();
 
-	UserDto updateUser(Long id, CreateUserDto updateUserDto);
+	UserDto updateUser(Long id, UpdateUserDto updateUserDto);
 
 	//void deleteUser(Long id);
 

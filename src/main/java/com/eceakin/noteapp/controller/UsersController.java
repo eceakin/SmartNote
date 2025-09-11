@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eceakin.noteapp.application.dto.CreateUserDto;
+import com.eceakin.noteapp.application.dto.UpdateUserDto;
 import com.eceakin.noteapp.application.dto.UserDto;
 import com.eceakin.noteapp.application.service.UserService;
 import com.eceakin.noteapp.security.SecurityUtils;
@@ -30,7 +31,7 @@ public class UsersController {
     }
     
     @PutMapping("/me")
-    public ResponseEntity<UserDto> updateCurrentUser(@Valid @RequestBody CreateUserDto updateUserDto) {
+    public ResponseEntity<UserDto> updateCurrentUser(@Valid @RequestBody UpdateUserDto updateUserDto) {
         Long currentUserId = SecurityUtils.getCurrentUserId();
         UserDto userDto = userService.updateUser(currentUserId, updateUserDto);
         return ResponseEntity.ok(userDto);
