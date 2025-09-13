@@ -9,17 +9,28 @@
 Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme, etiket yönetimi ve öncelik sistemi ile notlarınızı daha verimli yönetin.
 
 
-## 🎨 Ekran Görüntüleri
+## 📸 Ekran Görüntüleri
 
-![Not Listesi](https://example.com/notes-list.png)
-*Not listesi ve filtreleme seçenekleri*
+### Ana Arayüz
+![Ana Dashboard](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/main-dashboard.png)
 
-![Not Detay](https://example.com/note-detail.png)
-*Not detay sayfası ve AI özetleme butonu*
+### Kimlik Doğrulama
+![Giriş Sayfası](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/login-page.png)
+![Kayıt Sayfası](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/register-page.png)
 
-![Profil Yönetimi](https://example.com/profile-management.png)
-*Kullanıcı profili yönetim ekranı*
+### Not İşlemleri
+![Not Oluşturma](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/create-note.png)
 
+### AI Özetleme
+![AI Özetleme 1](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/ai-summary.png)
+![AI Özetleme 2](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/ai-summary-2.png)
+
+### Öncelik Filtreleme
+![Öncelik Filtreleme 1](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/filter-by-priority.png)
+![Öncelik Filtreleme 2](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/filter-by-priority-2.png)
+
+### Profil Yönetimi
+![Profil Bilgileri](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/profile-infos.png)
 
 
 
