@@ -14,21 +14,21 @@ Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme,
 ### Ana Arayüz
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/main-dashboard.png">
 
-### Kimlik Doğrulama
+### Kayıt Ol ve Giriş Yap Sayfaları 
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/login-page.png">
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/register-page.png">
 
 
-### Not İşlemleri
+### Not Oluşturma Sayfası
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/create-note.png">
 
 
-### AI Özetleme
+### AI ile Özetleme 
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/ai-summary.png">
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/ai-summary-2.png">
 
 
-### Öncelik Filtreleme
+### Öncelik Filtreleme (Sadece Orta Öncelikli Notlar & Sadece Yüksek Öncelikli Notlar)
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/filter-by-priority.png">
 <img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/filter-by-priority-2.png">
 
