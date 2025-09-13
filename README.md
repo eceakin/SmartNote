@@ -15,22 +15,22 @@ Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme,
 ![Ana Dashboard](./screenshots/main-dashboard.png)
 
 ### Kimlik Doğrulama
-![Giriş Sayfası](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/login-page.png)
-![Kayıt Sayfası](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/register-page.png)
+![Giriş Sayfası](./screenshots/login-page.png)
+![Kayıt Sayfası](./screenshots/register-page.png)
 
 ### Not İşlemleri
-![Not Oluşturma](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/create-note.png)
+![Not Oluşturma](./screenshots/create-note.png)
 
 ### AI Özetleme
-![AI Özetleme 1](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/ai-summary.png)
-![AI Özetleme 2](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/ai-summary-2.png)
+![AI Özetleme 1](./screenshots/ai-summary.png)
+![AI Özetleme 2](./screenshots/ai-summary-2.png)
 
 ### Öncelik Filtreleme
-![Öncelik Filtreleme 1](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/filter-by-priority.png)
-![Öncelik Filtreleme 2](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/filter-by-priority-2.png)
+![Öncelik Filtreleme 1](./screenshots/filter-by-priority.png)
+![Öncelik Filtreleme 2](./screenshots/filter-by-priority-2.png)
 
 ### Profil Yönetimi
-![Profil Bilgileri](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/profile-infos.png)
+![Profil Bilgileri](./screenshots/profile-infos.png)
 
 
 
