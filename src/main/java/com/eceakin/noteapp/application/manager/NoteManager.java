@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.eceakin.noteapp.application.dto.CreateNoteDto;
 import com.eceakin.noteapp.application.dto.NoteDto;
 import com.eceakin.noteapp.application.dto.UpdateNoteDto;
+import com.eceakin.noteapp.application.rules.NoteBusinessRules;
 import com.eceakin.noteapp.application.service.AiSummaryService;
 import com.eceakin.noteapp.application.service.NoteService;
 import com.eceakin.noteapp.model.Note;
@@ -29,10 +30,17 @@ public class NoteManager implements NoteService {
 	private final NoteRepository noteRepository;
 	private final ModelMapperService modelMapperService;
 	private final UserRepository userRepository;
+	private final NoteBusinessRules businessRules;
+
 	private final AiSummaryService aiSummaryService;
 
 	@Override
 	public NoteDto createNote(CreateNoteDto createNoteDto) {
+		this.businessRules.checkIfUserExists(createNoteDto.getUserId());
+		this.businessRules.checkIfTitleIsNotBlank(createNoteDto.getTitle());
+		this.businessRules.checkIfDescriptionLengthValid(createNoteDto.getDescription());
+		this.businessRules.checkIfTagsValid(createNoteDto.getTags());
+
 		User user = findUserById(createNoteDto.getUserId());
 		Note note = modelMapperService.forRequest().map(createNoteDto, Note.class);
 		note.setId(null);
@@ -49,6 +57,11 @@ public class NoteManager implements NoteService {
 
 	@Override
 	public NoteDto updateNote(Long id, UpdateNoteDto updateNoteDto) {
+		this.businessRules.checkIfNoteExists(id);
+		this.businessRules.checkIfTitleIsNotBlank(updateNoteDto.getTitle());
+		this.businessRules.checkIfDescriptionLengthValid(updateNoteDto.getDescription());
+		this.businessRules.checkIfTagsValid(updateNoteDto.getTags());
+
 		Note note = findNoteById(id);
 		note.setTitle(updateNoteDto.getTitle());
 		note.setDescription(updateNoteDto.getDescription());
@@ -60,11 +73,14 @@ public class NoteManager implements NoteService {
 
 	@Override
 	public Optional<NoteDto> getNoteById(Long id) {
+		this.businessRules.checkIfNoteExists(id);
 		return this.noteRepository.findById(id).map(note -> modelMapperService.forResponse().map(note, NoteDto.class));
 	}
 
 	@Override
 	public List<NoteDto> getNotesByUserId(Long id) {
+		this.businessRules.checkIfUserExists(id);
+
 		return this.noteRepository.findByUserIdOrderByCreatedAtDesc(id).stream()
 				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class)).collect(Collectors.toList());
 	}
@@ -78,18 +94,19 @@ public class NoteManager implements NoteService {
 
 	@Override
 	public void deleteNote(Long id) {
+		this.businessRules.checkIfNoteExists(id);
 		this.noteRepository.deleteById(id);
 	}
 
 	@Override
 	public List<NoteDto> searchNotes(Long userId, String query) {
+		this.businessRules.checkIfUserExists(userId);
 		if (query == null || query.trim().isEmpty()) {
 			return getNotesByUserId(userId); // Sorgu boşsa kullanıcının tüm notlarını getir
 		}
 		String trimmedQuery = query.trim();
 		List<Note> foundNotes = noteRepository.findByUserIdAndTitleOrTagsContaining(userId, trimmedQuery);
-		return foundNotes.stream()
-				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
+		return foundNotes.stream().map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
 				.collect(Collectors.toList());
 	}
 
@@ -124,16 +141,16 @@ public class NoteManager implements NoteService {
 
 		return aiSummaryService.summarizeText(textToSummarize);
 	}
+
 	@Override
 	public List<NoteDto> getNotesByUserIdOrderByPriority(Long userId) {
-	    return noteRepository.findByUserIdOrderByPriorityDescCreatedAtDesc(userId).stream()
-	            .map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
-	            .collect(Collectors.toList());
+		return noteRepository.findByUserIdOrderByPriorityDescCreatedAtDesc(userId).stream()
+				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class)).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public List<NoteDto> getNotesByUserIdAndPriority(Long userId, Priority priority) {
 		return this.noteRepository.findByUserIdAndPriorityOrderByCreatedAtDesc(userId, priority).stream()
-				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
-				.collect(Collectors.toList());
-	}}
+				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class)).collect(Collectors.toList());
+	}
+}
