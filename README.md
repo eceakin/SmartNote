@@ -12,7 +12,7 @@ Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme,
 ## 📸 Ekran Görüntüleri
 
 ### Ana Arayüz
-![Ana Dashboard](./eceakin/NoteAppWithSpring/master/screenshots/main-dashboard.png)
+![Ana Dashboard](./screenshots/main-dashboard.png)
 
 ### Kimlik Doğrulama
 ![Giriş Sayfası](https://raw.githubusercontent.com/eceakin/NoteAppWithSpring/master/screenshots/login-page.png)
