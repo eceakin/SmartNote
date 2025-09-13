@@ -12,27 +12,29 @@ Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme,
 ## 📸 Ekran Görüntüleri
 
 ### Ana Arayüz
-<img width="500" img height="500" alt="Ana Arayüz" src="./screenshots/main-dashboard.png">
-
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/main-dashboard.png">
 
 ### Kimlik Doğrulama
-![Giriş Sayfası](./screenshots/login-page.png)
-![Kayıt Sayfası](./screenshots/register-page.png)
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/login-page.png">
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/register-page.png">
+
 
 ### Not İşlemleri
-![Not Oluşturma](./screenshots/create-note.png)
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/create-note.png">
+
 
 ### AI Özetleme
-![AI Özetleme 1](./screenshots/ai-summary.png)
-![AI Özetleme 2](./screenshots/ai-summary-2.png)
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/ai-summary.png">
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/ai-summary-2.png">
+
 
 ### Öncelik Filtreleme
-![Öncelik Filtreleme 1](./screenshots/filter-by-priority.png)
-![Öncelik Filtreleme 2](./screenshots/filter-by-priority-2.png)
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/filter-by-priority.png">
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/filter-by-priority-2.png">
+
 
 ### Profil Yönetimi
-![Profil Bilgileri](./screenshots/profile-infos.png)
-
+<img width="400" img height="300" alt="Ana Arayüz" src="./screenshots/profile-infos.png">
 
 
 ## ✨ Öne Çıkan Özellikler
