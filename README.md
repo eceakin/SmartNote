@@ -12,7 +12,8 @@ Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme,
 ## 📸 Ekran Görüntüleri
 
 ### Ana Arayüz
-![Ana Dashboard](./screenshots/main-dashboard.png)
+<img width="500" img height="500" alt="Ana Arayüz" src="./screenshots/main-dashboard.png">
+
 
 ### Kimlik Doğrulama
 ![Giriş Sayfası](./screenshots/login-page.png)
