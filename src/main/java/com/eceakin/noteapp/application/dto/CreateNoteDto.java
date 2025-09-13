@@ -1,5 +1,10 @@
 package com.eceakin.noteapp.application.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.eceakin.noteapp.model.Priority;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -14,8 +19,11 @@ public class CreateNoteDto {
     @Size(max = 100, message = "Title cannot exceed 100 characters")
     private String title;
     
-    @Size(max = 500, message = "Description cannot exceed 500 characters")
+    @Size(max = 5000, message = "Description cannot exceed 5000characters")
     private String description;
-    
+    private List<String> tags = new ArrayList<>();
+    private Priority priority = Priority.MEDIUM;
+
     private Long userId;
 }
+ 

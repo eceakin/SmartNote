@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.eceakin.noteapp.application.dto.CreateNoteDto;
 import com.eceakin.noteapp.application.dto.NoteDto;
 import com.eceakin.noteapp.application.dto.UpdateNoteDto;
+import com.eceakin.noteapp.model.Priority;
 
 public interface NoteService {
 
@@ -15,9 +16,10 @@ public interface NoteService {
 	NoteDto updateNote(Long id,UpdateNoteDto updateNoteDto);
 	void deleteNote(Long id);
 
-	
 	List<NoteDto> getNotesByUserId(Long id);
-	
-	
-	List<NoteDto> searchNotesByTitle(Long userId,String title);
+	List<NoteDto> getNotesByUserIdAndPriority(Long userId, Priority priority);
+	List<NoteDto> searchNotes(Long userId, String query);
+	String summarizeNote(Long id);
+	List<NoteDto> getNotesByUserIdOrderByPriority(Long userId);
+
 }

@@ -1,11 +1,16 @@
 package com.eceakin.noteapp.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,6 +50,15 @@ public class Note {
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnoreProperties({"notes", "password"}) 
     private User user;
+    
+    @ElementCollection
+    
+    private List<String> tags = new ArrayList<>();
+    
+    // NEW: Add priority field
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority")
+    private Priority priority = Priority.MEDIUM; // Default priority
     
     @PrePersist
     protected void onCreate() {

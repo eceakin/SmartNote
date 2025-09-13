@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import com.eceakin.noteapp.application.dto.CreateNoteDto;
 import com.eceakin.noteapp.application.dto.NoteDto;
 import com.eceakin.noteapp.application.dto.UpdateNoteDto;
+import com.eceakin.noteapp.application.service.AiSummaryService;
 import com.eceakin.noteapp.application.service.NoteService;
 import com.eceakin.noteapp.model.Note;
+import com.eceakin.noteapp.model.Priority;
 import com.eceakin.noteapp.model.User;
 import com.eceakin.noteapp.repository.NoteRepository;
 import com.eceakin.noteapp.repository.UserRepository;
@@ -27,6 +29,7 @@ public class NoteManager implements NoteService {
 	private final NoteRepository noteRepository;
 	private final ModelMapperService modelMapperService;
 	private final UserRepository userRepository;
+	private final AiSummaryService aiSummaryService;
 
 	@Override
 	public NoteDto createNote(CreateNoteDto createNoteDto) {
@@ -34,6 +37,12 @@ public class NoteManager implements NoteService {
 		Note note = modelMapperService.forRequest().map(createNoteDto, Note.class);
 		note.setId(null);
 		note.setUser(user);
+
+		if (createNoteDto.getPriority() != null) {
+			note.setPriority(createNoteDto.getPriority());
+		} else {
+			note.setPriority(Priority.MEDIUM);
+		}
 		Note savedNote = noteRepository.save(note);
 		return modelMapperService.forResponse().map(savedNote, NoteDto.class);
 	}
@@ -43,6 +52,8 @@ public class NoteManager implements NoteService {
 		Note note = findNoteById(id);
 		note.setTitle(updateNoteDto.getTitle());
 		note.setDescription(updateNoteDto.getDescription());
+		note.setTags(updateNoteDto.getTags()); // <-- Etiket güncellemesi eklendi
+		note.setPriority(updateNoteDto.getPriority());
 		Note savedNote = noteRepository.save(note);
 		return modelMapperService.forResponse().map(savedNote, NoteDto.class);
 	}
@@ -71,9 +82,15 @@ public class NoteManager implements NoteService {
 	}
 
 	@Override
-	public List<NoteDto> searchNotesByTitle(Long userId, String title) {
-		return noteRepository.findByUserIdAndTitleContaining(userId, title).stream()
-				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class)).collect(Collectors.toList());
+	public List<NoteDto> searchNotes(Long userId, String query) {
+		if (query == null || query.trim().isEmpty()) {
+			return getNotesByUserId(userId); // Sorgu boşsa kullanıcının tüm notlarını getir
+		}
+		String trimmedQuery = query.trim();
+		List<Note> foundNotes = noteRepository.findByUserIdAndTitleOrTagsContaining(userId, trimmedQuery);
+		return foundNotes.stream()
+				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
+				.collect(Collectors.toList());
 	}
 
 	private User findUserById(Long userId) {
@@ -85,4 +102,38 @@ public class NoteManager implements NoteService {
 		return noteRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Note not found with id: " + id));
 	}
-}
+
+	@Override
+	public String summarizeNote(Long id) {
+		Note note = findNoteById(id);
+
+		// Combine title and description for summarization
+		StringBuilder content = new StringBuilder();
+		if (note.getTitle() != null && !note.getTitle().trim().isEmpty()) {
+			content.append(note.getTitle()).append(". ");
+		}
+		if (note.getDescription() != null && !note.getDescription().trim().isEmpty()) {
+			content.append(note.getDescription());
+		}
+
+		String textToSummarize = content.toString().trim();
+
+		if (textToSummarize.isEmpty()) {
+			return "No content available to summarize.";
+		}
+
+		return aiSummaryService.summarizeText(textToSummarize);
+	}
+	@Override
+	public List<NoteDto> getNotesByUserIdOrderByPriority(Long userId) {
+	    return noteRepository.findByUserIdOrderByPriorityDescCreatedAtDesc(userId).stream()
+	            .map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
+	            .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<NoteDto> getNotesByUserIdAndPriority(Long userId, Priority priority) {
+		return this.noteRepository.findByUserIdAndPriorityOrderByCreatedAtDesc(userId, priority).stream()
+				.map(note -> modelMapperService.forResponse().map(note, NoteDto.class))
+				.collect(Collectors.toList());
+	}}
