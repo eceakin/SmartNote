@@ -573,10 +573,9 @@ Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICE
 
 ## 📞 İletişim
 
-Ece Akın - [@eceakin](https://github.com/eceakin) - eceakin@example.com
+Ece Akın - [@eceakin](https://github.com/eceakin) - akinecee3535@hotmail.com
 
 Proje Linki: [https://github.com/eceakin/noteapp](https://github.com/eceakin/noteapp)
 
 ---
 
-**Not**: Bu proje eğitim amaçlı geliştirilmiştir ve aktif olarak geliştirilmeye devam etmektedir.
