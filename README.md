@@ -46,7 +46,7 @@ Modern ve kullanıcı dostu bir not yönetim uygulaması. AI destekli özetleme,
 - 📱 **Responsive Tasarım** - Mobil ve masaüstü uyumlu React arayüz
 - 🔍 **Gelişmiş Arama** - Başlık ve etiketlere göre filtreleme
 
-## 🛠️ Teknoloji Stack'i
+## 🛠️ Kullanılan Teknolojiler
 
 ### Backend
 - **Java 17+** - Temel programlama dili
@@ -171,6 +171,64 @@ npm run dev
 Uygulama, Hugging Face'in BART-large-CNN modelini kullanarak otomatik not özetleme özelliği sunar:
 
 # 📮 Postman Collection
+
+## 🚀 Postman Kullanım Talimatları
+
+### 1. Collection'ı Import Etme
+1. Postman uygulamasını açın
+2. "Import" butonuna tıklayın
+3. "Raw text" sekmesine aşağıdaki JSON'u yapıştırın
+4. "Import" butonuna tıklayın
+
+### 2. Environment Variables Ayarlama
+1. "Environments" sekmesine gidin
+2. "Globals" bölümüne aşağıdaki değişkenleri ekleyin:
+   - `baseUrl`: `http://localhost:8080`
+   - `authToken`: (boş bırakın, login sonrası otomatik dolacak)
+
+### 3. Test Akışı
+1. Önce **Register** endpoint'ini çalıştırarak yeni kullanıcı oluşturun
+2. **Login** endpoint'ini çalıştırın (token otomatik olarak kaydedilecek)
+3. Diğer endpoint'leri sırayla test edin
+
+### 4. Örnek Test Senaryosu
+
+```bash
+# 1. Kullanıcı kaydı
+POST /api/auth/register
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "firstName": "Test",
+  "lastName": "User"
+}
+
+# 2. Giriş yap ve token al
+POST /api/auth/login
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+# 3. Yeni not oluştur
+POST /api/notes
+Authorization: Bearer <token>
+{
+  "title": "AI Özetleme Test",
+  "description": "Bu not Hugging Face BART modeli ile özetlenecek...",
+  "tags": ["ai", "test", "teknoloji"],
+  "priority": "HIGH"
+}
+
+# 4. Notu özetle
+POST /api/notes/1/summarize
+Authorization: Bearer <token>
+
+# 5. Önceliğe göre filtrele
+GET /api/notes/by-priority?priority=HIGH
+Authorization: Bearer <token>
+```
 
 ## API Testleri için Postman Collection
 
@@ -489,63 +547,7 @@ Aşağıdaki JSON'ı Postman'e import ederek tüm API endpoint'lerini kolayca te
 }
 ```
 
-## 🚀 Postman Kullanım Talimatları
 
-### 1. Collection'ı Import Etme
-1. Postman uygulamasını açın
-2. "Import" butonuna tıklayın
-3. "Raw text" sekmesine yukarıdaki JSON'u yapıştırın
-4. "Import" butonuna tıklayın
-
-### 2. Environment Variables Ayarlama
-1. "Environments" sekmesine gidin
-2. "Globals" bölümüne aşağıdaki değişkenleri ekleyin:
-   - `baseUrl`: `http://localhost:8080`
-   - `authToken`: (boş bırakın, login sonrası otomatik dolacak)
-
-### 3. Test Akışı
-1. Önce **Register** endpoint'ini çalıştırarak yeni kullanıcı oluşturun
-2. **Login** endpoint'ini çalıştırın (token otomatik olarak kaydedilecek)
-3. Diğer endpoint'leri sırayla test edin
-
-### 4. Örnek Test Senaryosu
-
-```bash
-# 1. Kullanıcı kaydı
-POST /api/auth/register
-{
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "password123",
-  "firstName": "Test",
-  "lastName": "User"
-}
-
-# 2. Giriş yap ve token al
-POST /api/auth/login
-{
-  "username": "testuser",
-  "password": "password123"
-}
-
-# 3. Yeni not oluştur
-POST /api/notes
-Authorization: Bearer <token>
-{
-  "title": "AI Özetleme Test",
-  "description": "Bu not Hugging Face BART modeli ile özetlenecek...",
-  "tags": ["ai", "test", "teknoloji"],
-  "priority": "HIGH"
-}
-
-# 4. Notu özetle
-POST /api/notes/1/summarize
-Authorization: Bearer <token>
-
-# 5. Önceliğe göre filtrele
-GET /api/notes/by-priority?priority=HIGH
-Authorization: Bearer <token>
-```
 
 ## 🔍 Önemli Notlar
 
