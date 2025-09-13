@@ -1,4 +1,4 @@
-# NoteApp - Akıllı Not Yönetim Sistemi
+# SmartNote - Akıllı Not Yönetim Sistemi
 
 ![Java](https://img.shields.io/badge/Java-17%2B-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2%2B-brightgreen)
